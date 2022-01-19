@@ -88,6 +88,8 @@ try {
     echo "<span>". $e->getMessage() . "</span>";
 }
 
+echo "<br><br>------------------<br><br>";
+
 /**
      *      
      *      Definire classe Computer:
@@ -137,6 +139,79 @@ try {
      *      try-catch e eventualmente informare l'utente del problema
      * 
 */
+
+class Computer {
+    private $idcode;
+    private $model;
+    private $price;
+    private $brand;
+
+    public function __construct($idcode, $price){
+        $this->setIdCode($idcode);
+        $this->setPrice($price);
+    }
+
+    // setter
+    public function setIdCode($idcode){
+        if ((is_numeric($idcode)) && (strlen($idcode) === 6)){
+            $this->idcode = $idcode;
+        } else {
+            throw new Exception("Il codice univoco deve essere numerico e di sei(6) cifre");
+        }
+    }
+    public function setModel($model){
+        if (strlen($model)<3 || strlen($model)>20) {
+            throw new Exception("Il nome del modello deve essere tra 3 e 20 caratteri.");
+        } else {
+            $this->model = $model;
+        }
+    }
+    public function setPrice($price){
+        if (is_int($price) && $price>=0 && $price<=2000) {
+            $this->price = $price;
+        } else {
+            throw new Exception("Il prezzo deve essere un intero tra 0 e 2000");
+        }
+    }
+    public function setBrand($brand){
+        if (strlen($brand)<3 || strlen($brand)>20) {
+            throw new Exception("Il nome della marca deve essere tra 3 e 20 caratteri.");
+        } else {
+            $this->brand = $brand;
+        }
+    }
+
+    // getter
+    public function getIdCode(){
+        return $this->idcode;
+    }
+    public function getModel(){
+        return $this->model;
+    }
+    public function getPrice(){
+        return $this->price;
+    }
+    public function getBrand(){
+        return $this->brand;
+    }
+
+    // print functions
+    public function __toString(){
+        return $this->getBrand() . " " . $this->getModel() . ": " . $this->getPrice() . "€ [" . $this->getIdCode() . "]";
+    }
+    public function printMe(){
+        echo $this;
+    }
+}
+
+try {
+    $c1 = new Computer(123456, 2000);
+    $c1->setModel("MacBook Pro");
+    $c1->setBrand("Apple");
+    $c1->printMe();
+} catch (\Exception $f) {
+    echo "<span>". $f->getMessage() . "</span>";
+}
 
 
 
